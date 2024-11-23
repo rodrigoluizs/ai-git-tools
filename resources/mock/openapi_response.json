@@ -1,0 +1,6 @@
+{
+  "branch_name": "feat-git-change-script-openai",
+  "commit_message": "feat: integrate git change script with OpenAI\n\nThis commit introduces a Python script for managing git workflows and integrating OpenAI to generate branch names, commit messages, and PR descriptions dynamically.",
+  "pr_title": "feat: integrate git change script with OpenAI",
+  "pr_body": "## Description\nThis pr adds a Python script to streamline git workflows by integrating OpenAI API for generating branch names, commit messages, and pull request descriptions.\n\n## Changes\n- Added a script to handle git operations and integrate with OpenAI.\n- Included support for untracked files and dynamic prompt generation.\n- Updated the repository to include utilities for terminal interaction and ANSI-styled text.\n- Integrated OpenAI's ChatCompletion API for automatic generation of git-related information.\n\n## Motivation and Context\nThis feature aims to improve developer productivity by automating the creation of git workflows and ensuring standardized commit and pull request formats.\n\n## Checklist\n- [x] I have tested the changes locally.\n- [x] Documentation has been updated if necessary.\n- [x] This PR is ready for review."
+}

@@ -1,0 +1,47 @@
+I'm a software engineer and I need your help to get key information to move forward with my code changes:
+
+1. Branch Name
+2. Commit Message
+3. PR Title
+4. PR body
+
+constraints:
+1. follow conventional commits for PR title, commit message and branch name, using the most appropriate type depending on the change context
+2. for PR body and commit message, give me a single string with \n for line breaks
+3. use the following convention for branch name: {conventional-commit-type}-{name-based-on-context-of-my-changes}
+4. use the following Github template for the PR body:
+## Description
+<!-- Provide a brief description of the changes in this pull request. What problem does it solve or what feature does it add? -->
+
+## Changes
+<!--
+- List the key changes made in this PR.
+- Describe any new features or improvements.
+- Mention if any files were significantly modified or added.
+-->
+
+## Motivation and Context
+<!-- Explain why these changes were made. Include any relevant issue numbers if applicable. -->
+
+## Checklist
+- [ ] I have tested the changes locally.
+- [ ] Documentation has been updated if necessary.
+- [ ] This PR is ready for review.
+
+## Issue Reference
+Closes # <!-- *add the issue number if applicable* -->
+
+5. in the pr body template, the content within '<!--' and  '-->' represents the template itself, when you create the PR body the final text should not be within '<!--' and  '-->' otherwise it will not appear in the Github UI
+6. if I don't mention that it closes a specific issue, omit the Issue Reference section
+
+Please provide the following output in JSON format with these keys:
+{
+  "branch_name": "<suggested_branch_name>",
+  "commit_message": "<commit_message>",
+  "pr_title": "<pr_title>",
+  "pr_body": "<pr_body>"
+}
+Do not include any additional text or explanations outside the JSON.
+
+From this point onwards, all input I'll give you is related to the change itself, including a brief description of the change
+and all the files modified so far, if any, this should be used as context for the previous command blocks, names and descriptions.
