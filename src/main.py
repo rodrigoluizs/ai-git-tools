@@ -13,16 +13,16 @@ def display_help():
     AI Git Tools - Command Line Tool
 
     Usage:
-      ai-git-tools <command> [options]
+      ai-git-tools [options]
 
-    Commands:
-      github-pr       Generate a GitHub pull request based on code changes.
-      
+    Description:
+      AI-powered Git tools for automating common Git tasks like generating GitHub pull requests.
+
     Options:
       -h, --help      Show this help message and exit.
 
     Examples:
-      ai-git-tools github-pr      Create a GitHub pull request using code changes.
+      ai-git-tools      Automatically create a GitHub pull request using code changes.
     """
     print(help_text)
 
@@ -33,15 +33,10 @@ def main():
     """
     parser = argparse.ArgumentParser(
         description="AI Git Tools - Command Line Tool",
-        usage="ai-git-tools <command> [options]",
+        usage="ai-git-tools [options]",
         add_help=False
     )
 
-    parser.add_argument(
-        "command",
-        help="The command to execute (e.g., github-pr).",
-        nargs="?"
-    )
     parser.add_argument(
         "-h", "--help",
         action="store_true",
@@ -50,20 +45,14 @@ def main():
 
     args = parser.parse_args()
 
-    if args.help or not args.command:
+    if args.help:
         display_help()
         sys.exit(0)
 
-    if args.command == "github-pr":
-        # Call the GitHub PR command (execute the git_change_manager script)
-        try:
-            git_change_manager.main()
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing 'github-pr': {e}")
-            sys.exit(1)
-    else:
-        print(f"Unknown command: {args.command}")
-        display_help()
+    try:
+        git_change_manager.main()
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing GitHub PR workflow: {e}")
         sys.exit(1)
 
 
