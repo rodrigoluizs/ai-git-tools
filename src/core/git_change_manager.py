@@ -2,8 +2,10 @@ import json
 import os
 import sys
 
+import pyperclip
 from git import Repo, InvalidGitRepositoryError
 from src.service.github_service import GitHubService
+from src.service.openai_service import call_openai_api
 from src.service.terminal_service import TerminalService
 from src.service.vcs_service import VcsService
 from src.utils.ansi import color_text
@@ -82,6 +84,7 @@ def main():
         prompt_text = file.read()
 
     service = get_service_provider()
+    terminal = TerminalService()
 
     # Get Git information
     change_description = input("Enter a description of the change: ").strip()
@@ -98,16 +101,27 @@ def main():
     Content of untracked files:
     {untracked_content}
     """
+    choices = {"1": "Copy prompt to clipboard", "2": "Call OpenAI"}
+    choice = terminal.get_user_choice("How would you like to proceed?\n", choices)
+    terminal.print(f"Your choice: {choices[choice]}")
 
-    # TODO mocking the openapi response for now to avoid big costs
-    with open(get_resource_path('resources/mock/openapi_response.json'), "r") as file:
-        openai_response = json.loads(file.read())
-    # Call OpenAI API
+    if choice == '1':
+        pyperclip.copy(prompt_combined)
+        openai_response = json.loads(
+            terminal.get_direct_user_input(
+                "The prompt was copied to your clipboard, press any key to paste the response from your model in the editor.\n\n")
+        )
+    elif choice == '2':
+        openai_response = call_openai_api(prompt_combined)
+    else:
+        print("Invalid choice, exiting.")
+        sys.exit(0)
+
     # openai_response = call_openai_api(prompt_combined)
 
     # Confirm or edit suggestions
-    terminal = TerminalService()
-    branch_name = terminal.get_user_input("Branch name", f"{service.get_username()}/{openai_response.get('branch_name')}")
+    branch_name = terminal.get_user_input("Branch name",
+                                          f"{service.get_username()}/{openai_response.get('branch_name')}")
     commit_message = terminal.get_user_input("Commit message", openai_response.get('commit_message'))
     pr_title = terminal.get_user_input("PR title", openai_response.get('pr_title'))
     pr_body = terminal.get_user_input("PR body", openai_response.get('pr_body'))
