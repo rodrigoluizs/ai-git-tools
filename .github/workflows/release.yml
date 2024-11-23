@@ -8,37 +8,50 @@ on:
 
 jobs:
   build-and-upload:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Python (if your CLI is Python-based)
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      # Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Run Makefile build
       - name: Build executable
         run: |
-          make build
+          pip install pyinstaller
+          pyinstaller --onefile --add-data "resources:resources" src/main.py
 
-      # Upload to GitHub Releases
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Rename executables
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            mv dist/main dist/ai-git-tools-linux
+          elif [ "${{ matrix.os }}" = "macos-latest" ]; then
+            mv dist/main dist/ai-git-tools-macos
+          elif [ "${{ matrix.os }}" = "windows-latest" ]; then
+            mv dist/main.exe dist/ai-git-tools-win.exe
+          fi
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: dist/ai-git-tools
-          asset_name: ai-git-tools
-          asset_content_type: application/octet-stream
+          make_latest: true
+          draft: false
+          prerelease: false
+          files: |
+            dist/ai-git-tools-linux
+            dist/ai-git-tools-macos
+            dist/ai-git-tools-win.exe
