@@ -84,8 +84,7 @@ def main():
     service = get_service_provider()
 
     # Get Git information
-    change_description = 'feat git change script integrated with openai'
-    # change_description = input("Enter a description of the change: ").strip()
+    change_description = input("Enter a description of the change: ").strip()
     git_diff, untracked_content = get_git_diff()
 
     # Combine prompt
@@ -100,20 +99,15 @@ def main():
     {untracked_content}
     """
 
-    # Call OpenAI API
     # TODO mocking the openapi response for now to avoid big costs
-    # openai_response = call_openai_api(prompt_combined)
     with open(get_resource_path('resources/mock/openapi_response.json'), "r") as file:
         openai_response = json.loads(file.read())
+    # Call OpenAI API
+    # openai_response = call_openai_api(prompt_combined)
 
     # Confirm or edit suggestions
-    branch_name = f"{service.get_username()}/{openai_response.get('branch_name')}"
-    # commit_message = openai_response.get('commit_message')
-    # pr_title = openai_response.get('pr_title')
-    # pr_body = openai_response.get('pr_body')
-
     terminal = TerminalService()
-    branch_name = terminal.get_user_input("Branch name", branch_name)
+    branch_name = terminal.get_user_input("Branch name", f"{service.get_username()}/{openai_response.get('branch_name')}")
     commit_message = terminal.get_user_input("Commit message", openai_response.get('commit_message'))
     pr_title = terminal.get_user_input("PR title", openai_response.get('pr_title'))
     pr_body = terminal.get_user_input("PR body", openai_response.get('pr_body'))
