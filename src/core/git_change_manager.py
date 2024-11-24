@@ -92,15 +92,15 @@ def main():
 
     # Combine prompt
     prompt_combined = f"""{prompt_text}
-    Description of the change: 
-    {change_description}
-    
-    Git diff for my changes:
-    {git_diff}
-    
-    Content of untracked files:
-    {untracked_content}
-    """
+Description of the change:
+{change_description}
+
+Git diff for my changes:
+{git_diff}
+
+Content of untracked files:
+{untracked_content}
+"""
     choices = {"1": "Copy prompt to clipboard", "2": "Call OpenAI"}
     choice = terminal.get_user_choice("How would you like to proceed?\n", choices)
     terminal.print(f"Your choice: {choices[choice]}")
