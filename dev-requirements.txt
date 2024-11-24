@@ -2,3 +2,4 @@ pyinstaller
 pytest
 black
 pre-commit
+flake8
