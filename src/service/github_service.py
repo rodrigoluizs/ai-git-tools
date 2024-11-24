@@ -2,11 +2,16 @@ import os
 import sys
 
 from github import Github
+from src.service.git_service import GitService
 from src.service.vcs_service import VcsService
-from src.utils.git import get_repo_name, find_parent_branch
 
 
 class GitHubService(VcsService):
+    github: Github
+
+    def __init__(self):
+        super().__init__()
+        self.github = Github(os.getenv("GITHUB_TOKEN"))
 
     def validate_environment(self):
         """
@@ -24,11 +29,8 @@ class GitHubService(VcsService):
             print("Error: GITHUB_TOKEN environment variable is not set.")
             return None
 
-        # Authenticate with GitHub using the token
-        g = Github(github_token)
-
         # Get the authenticated user
-        user = g.get_user()
+        user = self.github.get_user()
 
         # Return the username
         return user.login
@@ -48,12 +50,12 @@ class GitHubService(VcsService):
             print("Error: GITHUB_TOKEN environment variable is not set.")
             return
 
-        g = Github(github_token)
+        git = GitService()
 
         try:
             # Access the repository
-            repo = g.get_repo(get_repo_name())
-            base_branch = find_parent_branch()
+            repo = self.github.get_repo(git.get_repo_name())
+            base_branch = git.find_parent_branch()
 
             # Check for an existing PR
             pull_request = None
