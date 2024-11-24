@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.fixture(autouse=True)
 def set_env_vars(monkeypatch):
     """Automatically set environment variables for all tests."""

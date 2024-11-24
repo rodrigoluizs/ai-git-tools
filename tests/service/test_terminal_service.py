@@ -76,9 +76,7 @@ def test_get_user_choice_invalid(mock_print, mock_keypress, terminal_service):
 @patch("subprocess.run", return_value=MagicMock(returncode=0))
 @patch("builtins.open", new_callable=mock_open, read_data="Edited value")
 @patch("os.remove")
-def test_get_user_input_edit(
-        mock_remove, mock_open_file, mock_subprocess, mock_tempfile, mock_keypress
-):
+def test_get_user_input_edit(mock_remove, mock_open_file, mock_subprocess, mock_tempfile, mock_keypress):
     """Test editing user input using an external editor."""
     terminal_service = TerminalService()
 

@@ -1,14 +1,10 @@
 import os
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 
 import pytest
 from git import InvalidGitRepositoryError
-from src.core.git_change_manager import (
-    get_prompt_file,
-    get_service_provider,
-    print_colored_summary,
-    validate_env_vars
-)
+from src.core.git_change_manager import get_prompt_file, get_service_provider, print_colored_summary, validate_env_vars
+from src.core.git_change_manager import main
 from src.service.github_service import GitHubService
 
 
@@ -34,6 +30,7 @@ def mock_prompt_file(tmp_path):
 
 
 # Test validate_env_vars
+
 
 def test_validate_env_vars_success():
     """Test validate_env_vars when both environment variables are set."""
@@ -68,6 +65,7 @@ def test_validate_env_vars_both_missing():
 
 # Test get_prompt_file
 
+
 @patch("src.core.git_change_manager.os.path.isfile", return_value=True)
 @patch("src.core.git_change_manager.get_resource_path", return_value="/mock/path/to/git-change-manager.txt")
 def test_get_prompt_file_success(mock_get_resource_path, mock_isfile):
@@ -85,6 +83,7 @@ def test_get_prompt_file_missing(mock_get_resource_path, mock_isfile):
 
 
 # Test get_service_provider
+
 
 def test_get_service_provider_github(mock_repo):
     """Test service provider detection for GitHub."""
@@ -144,6 +143,7 @@ def test_get_service_provider_unsupported_provider(mock_repo):
 
 # Test print_colored_summary
 
+
 @patch("src.core.git_change_manager.color_text", side_effect=lambda text, color: f"{color}:{text}")
 def test_print_colored_summary(mock_color_text, capsys):
     """Test print_colored_summary for correct output."""
@@ -157,26 +157,31 @@ def test_print_colored_summary(mock_color_text, capsys):
 
 # Test main
 
-import pytest
-from unittest.mock import patch, MagicMock
-from src.core.git_change_manager import main
-
 
 @patch("src.core.git_change_manager.get_prompt_file", return_value="/mock/path/to/git-change-manager.txt")
 @patch("src.core.git_change_manager.get_service_provider")
 @patch("src.core.git_change_manager.GitService")
 @patch("src.core.git_change_manager.TerminalService")
-@patch("src.core.git_change_manager.call_openai_api", return_value={
-    "branch_name": "test-branch",
-    "commit_message": "test commit",
-    "pr_title": "test PR",
-    "pr_body": "test body"
-})
+@patch(
+    "src.core.git_change_manager.call_openai_api",
+    return_value={
+        "branch_name": "test-branch",
+        "commit_message": "test commit",
+        "pr_title": "test PR",
+        "pr_body": "test body",
+    },
+)
 @patch("src.core.git_change_manager.open_in_default_browser")
 @patch("builtins.open", new_callable=MagicMock)
 def test_main(
-        mock_open, mock_browser, mock_api, mock_terminal, mock_git_service, mock_service_provider, mock_prompt_file,
-        tmp_path
+    mock_open,
+    mock_browser,
+    mock_api,
+    mock_terminal,
+    mock_git_service,
+    mock_service_provider,
+    mock_prompt_file,
+    tmp_path,
 ):
     """Test main function with all dependencies mocked."""
 
@@ -214,18 +219,21 @@ def test_main(
 
 @patch("src.core.git_change_manager.open_in_default_browser")
 @patch("src.core.git_change_manager.GitService")
-@patch("src.core.git_change_manager.call_openai_api", return_value={
-    "branch_name": "test-branch",
-    "commit_message": "test commit",
-    "pr_title": "test PR",
-    "pr_body": "test body"
-})
+@patch(
+    "src.core.git_change_manager.call_openai_api",
+    return_value={
+        "branch_name": "test-branch",
+        "commit_message": "test commit",
+        "pr_title": "test PR",
+        "pr_body": "test body",
+    },
+)
 @patch("src.core.git_change_manager.TerminalService")
 @patch("src.core.git_change_manager.get_service_provider")
 @patch("src.core.git_change_manager.get_prompt_file", return_value="/mock/path/to/git-change-manager.txt")
 @patch("builtins.open", new_callable=MagicMock)
 def test_main_create_pull_request_params(
-        mock_open, mock_prompt, mock_service_provider, mock_terminal, mock_api, mock_git_service, mock_browser
+    mock_open, mock_prompt, mock_service_provider, mock_terminal, mock_api, mock_git_service, mock_browser
 ):
     """Test that create_pull_request is called with correct parameters."""
     # Mock file behavior
@@ -252,25 +260,26 @@ def test_main_create_pull_request_params(
         main()
 
     # Assertions
-    mock_service_instance.create_pull_request.assert_called_once_with(
-        "mock-user/test-branch", "test PR", "test body"
-    )
+    mock_service_instance.create_pull_request.assert_called_once_with("mock-user/test-branch", "test PR", "test body")
 
 
 @patch("src.core.git_change_manager.open_in_default_browser")
 @patch("src.core.git_change_manager.GitService")
-@patch("src.core.git_change_manager.call_openai_api", return_value={
-    "branch_name": "test-branch",
-    "commit_message": "test commit",
-    "pr_title": "test PR",
-    "pr_body": "test body"
-})
+@patch(
+    "src.core.git_change_manager.call_openai_api",
+    return_value={
+        "branch_name": "test-branch",
+        "commit_message": "test commit",
+        "pr_title": "test PR",
+        "pr_body": "test body",
+    },
+)
 @patch("src.core.git_change_manager.TerminalService")
 @patch("src.core.git_change_manager.get_service_provider")
 @patch("src.core.git_change_manager.get_prompt_file", return_value="/mock/path/to/git-change-manager.txt")
 @patch("builtins.open", new_callable=MagicMock)
 def test_main_choice_1(
-        mock_open, mock_prompt, mock_service_provider, mock_terminal, mock_api, mock_git_service, mock_browser
+    mock_open, mock_prompt, mock_service_provider, mock_terminal, mock_api, mock_git_service, mock_browser
 ):
     """Test main function for choice 1 (Copy to Clipboard)."""
     # Mock file behavior
@@ -290,7 +299,9 @@ def test_main_choice_1(
     mock_terminal_instance = mock_terminal.return_value
     mock_terminal_instance.get_user_choice.return_value = "1"
     mock_terminal_instance.get_user_input.side_effect = lambda *args: args[1]
-    mock_terminal_instance.get_direct_user_input.return_value = '{"branch_name": "test-branch", "commit_message": "test commit", "pr_title": "test PR", "pr_body": "test body"}'
+    mock_terminal_instance.get_direct_user_input.return_value = (
+        '{"branch_name": "test-branch", "commit_message": "test commit", "pr_title": "test PR", "pr_body": "test body"}'
+    )
 
     with patch("pyperclip.copy") as mock_copy:
         with patch("builtins.input", return_value="Test Change Description"):
@@ -319,7 +330,7 @@ mock_untracked
 @patch("src.core.git_change_manager.get_prompt_file", return_value="/mock/path/to/git-change-manager.txt")
 @patch("builtins.open", new_callable=MagicMock)
 def test_main_invalid_choice(
-        mock_open, mock_prompt, mock_service_provider, mock_terminal, mock_api, mock_git_service, mock_browser
+    mock_open, mock_prompt, mock_service_provider, mock_terminal, mock_api, mock_git_service, mock_browser
 ):
     """Test main function for invalid choice (else clause)."""
     # Mock file behavior
