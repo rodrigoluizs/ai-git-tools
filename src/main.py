@@ -32,16 +32,10 @@ def main():
     Main entry point for the command-line tool.
     """
     parser = argparse.ArgumentParser(
-        description="AI Git Tools - Command Line Tool",
-        usage="ai-git-tools [options]",
-        add_help=False
+        description="AI Git Tools - Command Line Tool", usage="ai-git-tools [options]", add_help=False
     )
 
-    parser.add_argument(
-        "-h", "--help",
-        action="store_true",
-        help="Show this help message and exit."
-    )
+    parser.add_argument("-h", "--help", action="store_true", help="Show this help message and exit.")
 
     args = parser.parse_args()
 

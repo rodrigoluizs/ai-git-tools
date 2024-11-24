@@ -57,7 +57,7 @@ class GitHubService(VcsService):
 
             # Check for an existing PR
             pull_request = None
-            open_pulls = repo.get_pulls(state='open', base=base_branch, head=f"{repo.owner.login}:{head_branch}")
+            open_pulls = repo.get_pulls(state="open", base=base_branch, head=f"{repo.owner.login}:{head_branch}")
             for pr in open_pulls:
                 pull_request = pr
                 break  # If there's an open PR, use it
@@ -73,7 +73,7 @@ class GitHubService(VcsService):
                     title=pr_title,
                     body=pr_body,
                     base=base_branch,  # The branch you want to merge into
-                    head=head_branch  # The branch you want to merge from
+                    head=head_branch,  # The branch you want to merge from
                 )
                 print(f"Pull request created")
 
