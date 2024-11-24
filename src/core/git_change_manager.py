@@ -4,6 +4,7 @@ import sys
 
 import pyperclip
 from git import Repo, InvalidGitRepositoryError
+from src.service.git_service import GitService
 from src.service.github_service import GitHubService
 from src.service.openai_service import call_openai_api
 from src.service.terminal_service import TerminalService
@@ -11,22 +12,24 @@ from src.service.vcs_service import VcsService
 from src.utils.ansi import color_text
 from src.utils.browser import open_in_default_browser
 from src.utils.file_utils import get_resource_path
-from src.utils.git import get_git_diff, sync_branch_and_commit
 
-# Constants
-PROMPT_FILE = get_resource_path("resources/prompts/git-change-manager.txt")
 
-if not os.getenv("OPENAI_API_KEY"):
-    print("Error: OPENAI_API_KEY environment variable is not set.")
-    sys.exit(1)
+def validate_env_vars():
+    if not os.getenv("OPENAI_API_KEY"):
+        print("Error: OPENAI_API_KEY environment variable is not set.")
+        sys.exit(1)
+    if not os.getenv("GITHUB_TOKEN"):
+        print("Error: GITHUB_TOKEN environment variable is not set.")
+        sys.exit(1)
 
-if not os.path.isfile(PROMPT_FILE):
-    print(f"Prompt file not found at {PROMPT_FILE}")
-    sys.exit(1)
 
-if not os.getenv("GITHUB_TOKEN"):
-    print("Error: GITHUB_TOKEN environment variable is not set.")
-    sys.exit(1)
+def get_prompt_file():
+    """Get the path to the prompt file."""
+    path = get_resource_path("resources/prompts/git-change-manager.txt")
+    if not os.path.isfile(path):
+        print(f"Prompt file not found at {path}")
+        sys.exit(1)
+    return path
 
 
 # Define colors for different sections
@@ -79,16 +82,19 @@ def get_service_provider() -> VcsService:
 
 
 def main():
+    validate_env_vars()
     # Read prompt template
-    with open(PROMPT_FILE, "r") as file:
+
+    with open(get_prompt_file(), "r") as file:
         prompt_text = file.read()
 
     service = get_service_provider()
+    git = GitService()
     terminal = TerminalService()
 
     # Get Git information
     change_description = input("Enter a description of the change: ").strip()
-    git_diff, untracked_content = get_git_diff()
+    git_diff, untracked_content = git.get_diff()
 
     # Combine prompt
     prompt_combined = f"""{prompt_text}
@@ -103,7 +109,6 @@ Content of untracked files:
 """
     choices = {"1": "Copy prompt to clipboard", "2": "Call OpenAI"}
     choice = terminal.get_user_choice("How would you like to proceed?\n", choices)
-    terminal.print(f"Your choice: {choices[choice]}")
 
     if choice == "1":
         pyperclip.copy(prompt_combined)
@@ -118,8 +123,6 @@ Content of untracked files:
         print("Invalid choice, exiting.")
         sys.exit(0)
 
-    # openai_response = call_openai_api(prompt_combined)
-
     # Confirm or edit suggestions
     branch_name = terminal.get_user_input(
         "Branch name", f"{service.get_username()}/{openai_response.get('branch_name')}"
@@ -133,7 +136,7 @@ Content of untracked files:
     # Execute commands
     print("Executing commands...")
     # Get the current branch
-    sync_branch_and_commit(branch_name, commit_message)
+    git.sync_branch_and_commit(branch_name, commit_message)
     pr_url = service.create_pull_request(branch_name, pr_title, pr_body)
 
     open_in_default_browser(pr_url)
