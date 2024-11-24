@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/rodrigoluizs/ai-git-tools/badge.svg?branch=main)](https://coveralls.io/github/rodrigoluizs/ai-git-tools?branch=main)
 # AI Git Tools
 
 The `ai-git-tools` command-line tool leverages the power of AI to streamline your Git workflow. By analyzing your code changes, it automates the creation of intelligent commit messages, branch names, and pull requests, saving you time and ensuring consistency.
