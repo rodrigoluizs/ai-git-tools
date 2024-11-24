@@ -87,7 +87,6 @@ class TerminalService:
                         return default_value
                     with open(temp_path, "r") as temp_file:
                         edited_value = temp_file.read().strip()
-                    os.remove(temp_path)
                     return edited_value
                 finally:
                     if os.path.exists(temp_path):
@@ -120,7 +119,6 @@ class TerminalService:
                         sys.exit(0)
                     with open(temp_path, "r") as temp_file:
                         edited_value = temp_file.read().strip()
-                    os.remove(temp_path)
                     return edited_value
                 finally:
                     if os.path.exists(temp_path):
