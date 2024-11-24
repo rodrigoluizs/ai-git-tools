@@ -18,6 +18,6 @@ def call_openai_api(prompt):
         )
         # Return the assistant's response
         return response["choices"][0]["message"]["content"]
-    except openai.error.OpenAIError as e:
+    except Exception as e:
         print(f"OpenAI API error: {str(e)}")
         sys.exit(1)
