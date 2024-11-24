@@ -30,7 +30,7 @@ run:
 	./dist/ai-git-tools
 
 clean:
-	rm -rf build dist __pycache__ *.spec
+	rm -rf build dist __pycache__ *.spec htmlcov
 	find . -name "*.pyc" -delete
 	find . -name "__pycache__" -type d -exec rm -r {} +
 
