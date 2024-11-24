@@ -21,9 +21,7 @@ def test_call_openai_api_success(mock_create):
     Test call_openai_api with a successful response from OpenAI API.
     """
     # Mock the OpenAI response
-    mock_create.return_value = {
-        "choices": [{"message": {"content": "Mocked response from OpenAI"}}]
-    }
+    mock_create.return_value = {"choices": [{"message": {"content": "Mocked response from OpenAI"}}]}
 
     # Set the OPENAI_API_KEY
     with patch.dict(os.environ, {"OPENAI_API_KEY": "fake-key"}):
