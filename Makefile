@@ -1,4 +1,6 @@
 SYSTEM_PYTHON ?= python3
+PYTHONPATH := $(shell pwd)/src
+COV_REPORT_DIR := htmlcov
 
 all: env
 
@@ -17,13 +19,22 @@ build:
 	pyinstaller --onefile --add-data "resources:resources" src/main.py
 	mv dist/main dist/ai-git-tools
 
+test:
+	pytest --cov=src --cov-fail-under=85 -vv
+
+coverage:
+	pytest --cov=src --cov-report=term --cov-report=html:$(COV_REPORT_DIR) -vv
+	open $(COV_REPORT_DIR)/index.html
+
 run:
 	./dist/ai-git-tools
 
 clean:
 	rm -rf build dist __pycache__ *.spec
+	find . -name "*.pyc" -delete
+	find . -name "__pycache__" -type d -exec rm -r {} +
 
 pre-commit:
 	pre-commit run --all-files
 
-.PHONY: all env run build run clean pre-commit
+.PHONY: all env run build test run clean pre-commit
