@@ -75,7 +75,7 @@ class GitHubService(VcsService):
                     base=base_branch,  # The branch you want to merge into
                     head=head_branch,  # The branch you want to merge from
                 )
-                print(f"Pull request created")
+                print("Pull request created")
 
             return pull_request.html_url
         except Exception as e:
