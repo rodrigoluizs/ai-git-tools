@@ -17,7 +17,7 @@ dev: .venv
 build:
 	pip install pyinstaller
 	pyinstaller --onefile --add-data "resources:resources" src/main.py
-	mv dist/main dist/ai-git-tools
+	mv dist/main dist/agt
 
 test:
 	pytest --cov=src --cov-fail-under=93 -vv
@@ -27,7 +27,7 @@ coverage:
 	open $(COV_REPORT_DIR)/index.html
 
 run:
-	./dist/ai-git-tools
+	./dist/agt
 
 clean:
 	rm -rf build dist __pycache__ *.spec htmlcov

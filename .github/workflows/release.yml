@@ -37,11 +37,11 @@ jobs:
         shell: bash
         run: |
           if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            mv dist/main dist/ai-git-tools-linux
+            mv dist/main dist/agt-linux
           elif [ "${{ matrix.os }}" = "macos-latest" ]; then
-            mv dist/main dist/ai-git-tools-macos
+            mv dist/main dist/agt-macos
           elif [ "${{ matrix.os }}" = "windows-latest" ]; then
-            mv dist/main.exe dist/ai-git-tools-win.exe
+            mv dist/main.exe dist/agt-win.exe
           fi
 
       - name: Release
@@ -52,6 +52,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            dist/ai-git-tools-linux
-            dist/ai-git-tools-macos
-            dist/ai-git-tools-win.exe
+            dist/agt-linux
+            dist/agt-macos
+            dist/agt-win.exe

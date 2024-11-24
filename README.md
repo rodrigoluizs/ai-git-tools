@@ -1,7 +1,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/rodrigoluizs/ai-git-tools/badge.svg?branch=main)](https://coveralls.io/github/rodrigoluizs/ai-git-tools?branch=main)
 # AI Git Tools
 
-The `ai-git-tools` command-line tool leverages the power of AI to streamline your Git workflow. By analyzing your code changes, it automates the creation of intelligent commit messages, branch names, and pull requests, saving you time and ensuring consistency.
+The `agt` command-line tool leverages the power of AI to streamline your Git workflow. By analyzing your code changes, it automates the creation of intelligent commit messages, branch names, and pull requests, saving you time and ensuring consistency.
 
 ## Features
 
@@ -43,20 +43,20 @@ Download the latest release for your platform from the [GitHub Releases page](ht
 
 On Linux/MacOS, make the binary executable:
 ```bash
-chmod +x ai-git-tools
+chmod +x agt
 ```
 
 ## Usage
 
 Run the tool directly from the command line:
 ```bash
-ai-git-tools
+agt
 ```
 
 ### Help
 To display help documentation:
 ```bash
-ai-git-tools --help
+agt --help
 ```
 
 ## Requirements
