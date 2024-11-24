@@ -17,7 +17,7 @@ class TerminalService:
     def print(self, text):
         """Print text to the terminal and track the number of lines."""
         print(text)
-        self.line_count += text.count('\n') + 1  # Count lines in the text
+        self.line_count += text.count("\n") + 1  # Count lines in the text
 
     def clear(self):
         """Clear all tracked lines from the terminal."""
@@ -49,7 +49,7 @@ class TerminalService:
         while True:
             self.print(f"{prompt}")
             for key, description in choices.items():
-                self.print(color_text(f"{key}: {description}", '34'))
+                self.print(color_text(f"{key}: {description}", "34"))
             self.print("\nChoose an option:")
             key = self.get_single_keypress()
             self.clear()
@@ -76,7 +76,7 @@ class TerminalService:
             elif key.lower() == "e":
                 editor = os.getenv("EDITOR", "vi")
                 with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as temp_file:
-                    temp_file.write(default_value.encode('utf-8'))
+                    temp_file.write(default_value.encode("utf-8"))
                     temp_file.flush()
                     temp_path = temp_file.name
 

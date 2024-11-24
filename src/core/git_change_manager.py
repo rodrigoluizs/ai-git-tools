@@ -105,13 +105,14 @@ def main():
     choice = terminal.get_user_choice("How would you like to proceed?\n", choices)
     terminal.print(f"Your choice: {choices[choice]}")
 
-    if choice == '1':
+    if choice == "1":
         pyperclip.copy(prompt_combined)
         openai_response = json.loads(
             terminal.get_direct_user_input(
-                "The prompt was copied to your clipboard, press any key to paste the response from your model in the editor.\n\n")
+                "The prompt was copied to your clipboard, press any key to paste the response from your model in the editor.\n\n"
+            )
         )
-    elif choice == '2':
+    elif choice == "2":
         openai_response = call_openai_api(prompt_combined)
     else:
         print("Invalid choice, exiting.")
@@ -120,11 +121,12 @@ def main():
     # openai_response = call_openai_api(prompt_combined)
 
     # Confirm or edit suggestions
-    branch_name = terminal.get_user_input("Branch name",
-                                          f"{service.get_username()}/{openai_response.get('branch_name')}")
-    commit_message = terminal.get_user_input("Commit message", openai_response.get('commit_message'))
-    pr_title = terminal.get_user_input("PR title", openai_response.get('pr_title'))
-    pr_body = terminal.get_user_input("PR body", openai_response.get('pr_body'))
+    branch_name = terminal.get_user_input(
+        "Branch name", f"{service.get_username()}/{openai_response.get('branch_name')}"
+    )
+    commit_message = terminal.get_user_input("Commit message", openai_response.get("commit_message"))
+    pr_title = terminal.get_user_input("PR title", openai_response.get("pr_title"))
+    pr_body = terminal.get_user_input("PR body", openai_response.get("pr_body"))
 
     print_colored_summary(branch_name, commit_message, pr_title, pr_body)
 

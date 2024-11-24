@@ -14,9 +14,7 @@ def call_openai_api(prompt):
 
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7
+            model="gpt-4-turbo", messages=[{"role": "user", "content": prompt}], temperature=0.7
         )
         # Return the assistant's response
         return response["choices"][0]["message"]["content"]

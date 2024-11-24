@@ -24,8 +24,10 @@ def find_parent_branch():
             merge_base = repo.git.merge_base(current_branch, branch).strip()
             if merge_base:
                 # Check if this merge base is closer than the previous closest
-                if not closest_base or repo.commit(merge_base).committed_date > repo.commit(
-                        closest_base).committed_date:
+                if (
+                    not closest_base
+                    or repo.commit(merge_base).committed_date > repo.commit(closest_base).committed_date
+                ):
                     closest_base = merge_base
                     parent_branch = branch
         except Exception as e:
@@ -107,7 +109,7 @@ def get_git_diff():
                 except UnicodeDecodeError:
                     print(f"Skipping binary or unreadable file: {untracked_file}")
 
-        return f'{unstaged}\n{staged}\n{branch}', untracked_content
+        return f"{unstaged}\n{staged}\n{branch}", untracked_content
 
     except Exception as e:
         print(f"Error retrieving Git diffs: {e}")

@@ -23,4 +23,7 @@ run:
 clean:
 	rm -rf build dist __pycache__ *.spec
 
-.PHONY: all env run build run clean
+pre-commit:
+	pre-commit run --all-files
+
+.PHONY: all env run build run clean pre-commit
