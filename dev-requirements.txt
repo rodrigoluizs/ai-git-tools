@@ -1,5 +1,8 @@
 pyinstaller
 pytest
+pytest-cov
+pytest-mock
+pytest-mock-resources
 black
 pre-commit
 flake8
