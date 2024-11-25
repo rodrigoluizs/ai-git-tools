@@ -20,7 +20,7 @@ build:
 	mv dist/main dist/agt
 
 test:
-	pytest --cov=src --cov-fail-under=93 -vv
+	pytest --cov=src --cov-fail-under=94 -vv
 
 coverage:
 	pytest --cov=src --cov-report=term --cov-report=html:$(COV_REPORT_DIR) -vv
