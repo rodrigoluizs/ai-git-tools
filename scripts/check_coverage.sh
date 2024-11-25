@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pytest --cov=src --cov-fail-under=93
+pytest --cov=src --cov-fail-under=94

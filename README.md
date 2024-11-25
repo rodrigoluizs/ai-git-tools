@@ -8,7 +8,7 @@ The `agt` command-line tool leverages the power of AI to streamline your Git wor
 - **Branch Naming**: Automatically generate branch names based on conventional commit guidelines.
 - **Commit Messages**: Create consistent and meaningful commit messages powered by AI.
 - **Pull Request Creation**: Generate and open GitHub pull requests directly from your terminal.
-- **Multi-Service Support**: Currently supporting only GitHub, other service providers will come soon.
+- **Multi-Service Support**: Currently supporting GitHub and Bitbucket, other service providers will come soon.
 
 ## How It Works
 
@@ -69,7 +69,11 @@ agt --help
 Set up your environment variables:
 
 - `OPENAI_API_KEY`: Your OpenAI API key.
-- `GITHUB_TOKEN`: Your GitHub personal access token.
+- For GitHub Repos
+  - `GITHUB_TOKEN`: Your GitHub personal access token.
+- For Bitbucket Repos
+  - `BITBUCKET_USERNAME`: Your Bitbucket username.
+  - `BITBUCKET_APP_PASSWORD`: An app password with permissions to create commits and pull requests.
 
 ## Contributing
 
