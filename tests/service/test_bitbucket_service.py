@@ -21,7 +21,7 @@ class TestBitbucketService(unittest.TestCase):
         except SystemExit:
             self.fail("validate_environment raised SystemExit unexpectedly!")
 
-    @patch.dict(os.environ, {"BITBUCKET_USERNAME": '', "BITBUCKET_APP_PASSWORD": ''})
+    @patch.dict(os.environ, {"BITBUCKET_USERNAME": "", "BITBUCKET_APP_PASSWORD": ""})
     def test_validate_environment_missing_env_vars(self):
         # Ensure the method exits when the environment variables are missing
         with self.assertRaises(SystemExit):
@@ -76,9 +76,7 @@ class TestBitbucketService(unittest.TestCase):
         mock_post.return_value = mock_response
 
         pr_url = self.service.create_pull_request(
-            head_branch="feature/test",
-            pr_title="Test PR",
-            pr_body="This is a test pull request."
+            head_branch="feature/test", pr_title="Test PR", pr_body="This is a test pull request."
         )
         self.assertEqual(pr_url, "https://bitbucket.org/test_project/test_repo/pull-requests/1")
 
@@ -102,10 +100,9 @@ class TestBitbucketService(unittest.TestCase):
 
         with self.assertRaises(SystemExit):
             self.service.create_pull_request(
-                head_branch="feature/test",
-                pr_title="Test PR",
-                pr_body="This is a test pull request."
+                head_branch="feature/test", pr_title="Test PR", pr_body="This is a test pull request."
             )
+
 
 if __name__ == "__main__":
     unittest.main()

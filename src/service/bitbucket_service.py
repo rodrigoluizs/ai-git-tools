@@ -53,17 +53,9 @@ class BitbucketService(VcsService):
         data = {
             "title": pr_title,
             "description": pr_body,
-            "source": {
-                "branch": {
-                    "name": head_branch
-                }
-            },
-            "destination": {
-                "branch": {
-                    "name": base_branch
-                }
-            },
-            "close_source_branch": True
+            "source": {"branch": {"name": head_branch}},
+            "destination": {"branch": {"name": base_branch}},
+            "close_source_branch": True,
         }
 
         return data
@@ -91,11 +83,7 @@ class BitbucketService(VcsService):
             data = self.build_pull_request_data(head_branch, base_branch, pr_title, pr_body)
 
             # Send the POST request to create the pull request
-            response = requests.post(
-                repo_url,
-                json=data,
-                auth=(self.username, self.password)
-            )
+            response = requests.post(repo_url, json=data, auth=(self.username, self.password))
 
             # Raise an exception for HTTP errors
             response.raise_for_status()
@@ -110,5 +98,5 @@ class BitbucketService(VcsService):
             sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(BitbucketService().get_username())
