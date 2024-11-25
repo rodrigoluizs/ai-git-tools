@@ -4,6 +4,7 @@ import sys
 
 import pyperclip
 from git import Repo, InvalidGitRepositoryError
+from src.service.bitbucket_service import BitbucketService
 from src.service.git_service import GitService
 from src.service.github_service import GitHubService
 from src.service.openai_service import call_openai_api
@@ -70,8 +71,7 @@ def get_service_provider() -> VcsService:
             print(f"Unsupported service provider: {remote_url}")
             sys.exit(0)
         elif "bitbucket.org" in remote_url:
-            print(f"Unsupported service provider: {remote_url}")
-            sys.exit(0)
+            return BitbucketService()
         else:
             print(f"Unsupported service provider: {remote_url}")
             sys.exit(0)

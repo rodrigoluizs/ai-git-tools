@@ -3,6 +3,7 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 from git import InvalidGitRepositoryError
+from src.service.bitbucket_service import BitbucketService
 from src.core.git_change_manager import get_prompt_file, get_service_provider, print_colored_summary, validate_env_vars
 from src.core.git_change_manager import main
 from src.service.github_service import GitHubService
@@ -108,8 +109,8 @@ def test_get_service_provider_bitbucket(mock_repo):
 
     mock_repo.remote.return_value.urls = iter(["https://bitbucket.org/test/repo"])
 
-    with pytest.raises(SystemExit):
-        get_service_provider()
+    service = get_service_provider()
+    assert isinstance(service, BitbucketService)
 
 
 @patch("src.core.git_change_manager.Repo")
