@@ -7,7 +7,7 @@ from git import Repo, InvalidGitRepositoryError
 from src.service.bitbucket_service import BitbucketService
 from src.service.git_service import GitService
 from src.service.github_service import GitHubService
-from src.service.openai_service import call_openai_api
+from src.service.openai_service import OpenAiService
 from src.service.terminal_service import TerminalService
 from src.service.vcs_service import VcsService
 from src.utils.ansi import color_text
@@ -118,7 +118,7 @@ Content of untracked files:
             )
         )
     elif choice == "2":
-        openai_response = call_openai_api(prompt_combined)
+        openai_response = OpenAiService().call(prompt_combined)
     else:
         print("Invalid choice, exiting.")
         sys.exit(0)
