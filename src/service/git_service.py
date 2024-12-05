@@ -70,7 +70,14 @@ class GitService:
         try:
             unstaged = self.repo.git.diff()
             staged = self.repo.git.diff(cached=True)
-            branch = self.repo.git.diff("main...HEAD")
+
+            parent_branch = self.find_parent_branch()
+
+            if not parent_branch:
+                print("Unable to determine the parent branch. Defaulting to 'main'.")
+                parent_branch = "main"
+
+            branch = self.repo.git.diff(f"{parent_branch}...HEAD")
 
             # Get untracked files and their content
             untracked_content = ""
