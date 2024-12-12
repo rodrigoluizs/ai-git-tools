@@ -31,8 +31,8 @@ constraints:
 ## Issue Reference
 Closes # <!-- *add the issue number if applicable* -->
 
-5. in the pr body template, the content within '<!--' and  '-->' represents the template itself, when you create the PR body the final text should not be within '<!--' and  '-->' otherwise it will not appear in the Github UI
-6. if I don't mention that it closes a specific issue, omit the Issue Reference section
+5. In the PR body template, do not return any text that appears within `<!--` and `-->` in the original template. Replace these placeholders with meaningful content.
+6. If I don't mention that it closes a specific issue, omit the "Issue Reference" section entirely from the output.
 
 Please provide the following output in JSON format with these keys:
 {
